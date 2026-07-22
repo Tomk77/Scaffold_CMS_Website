@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Scaffold website
 
-## Getting Started
+Standalone Next.js website for Scaffold CMS. It ports the supplied product design and reads published pages, navigation, and redirects from the CMS GraphQL delivery API.
 
-First, run the development server:
+## Requirements
+
+- Node.js 22 or newer
+- pnpm 9.1.4
+- Scaffold CMS running on `http://localhost:4000`
+- A site-scoped publishable token from **Site settings → API access**
+
+## Local setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+cp .env.example .env.local
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Fill `CMS_PUBLISHABLE_TOKEN` in `.env.local`. The website starts at [http://localhost:4001](http://localhost:4001); the CMS remains on port 4000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The token is server-only. Do not rename it to a `NEXT_PUBLIC_*` variable.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## CMS delivery strategy
 
-## Learn More
+- The homepage uses the supplied Scaffold marketing design and shows a live sample of published CMS pages.
+- `app/[...slug]/page.tsx` resolves any published page by its URL, so templates do not require separate GraphQL queries.
+- Known published URLs are collected during `next build` with `generateStaticParams`.
+- New and changed routes remain available at runtime, with CMS fetches revalidated every 60 seconds by default.
+- Published navigation and redirects are consumed from the same GraphQL contract.
+- When the CMS is unavailable, the marketing homepage remains usable and clearly omits its live data section. CMS-owned routes use the application error boundary.
 
-To learn more about Next.js, take a look at the following resources:
+Configure the refresh interval with `CMS_REVALIDATE_SECONDS`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Quality commands
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm format:check
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm check
+```
 
-## Deploy on Vercel
+`pnpm check` runs the full local CI sequence. GitHub Actions runs the same checks on pushes and pull requests.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Repository handoff
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This directory is already an independent Git repository. Once the destination GitHub repository exists:
+
+```bash
+git remote add origin <repository-url>
+git push -u origin main
+```
+
+The local `.env.local` and publishable token are ignored by Git.
