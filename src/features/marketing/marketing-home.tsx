@@ -17,6 +17,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { SiteShell } from "@/components/site-shell";
+import { getMarketingHomeContent } from "@/features/marketing/home-content";
 import type { CmsBootstrap, CmsPage } from "@/lib/cms/schema";
 
 const steps = [
@@ -249,6 +250,7 @@ function LivePageCard({ page }: { page: CmsPage }) {
 }
 
 export function MarketingHome({ cms }: { cms: CmsBootstrap | null }) {
+  const content = getMarketingHomeContent(cms);
   const pages = cms?.pages.nodes.filter((page) => page.path !== "/").slice(0, 6) ?? [];
 
   return (
@@ -257,15 +259,10 @@ export function MarketingHome({ cms }: { cms: CmsBootstrap | null }) {
         <div className="hero-copy">
           <span className="release-pill">
             <GitBranch weight="fill" />
-            Published API available
+            {content.eyebrow}
           </span>
-          <h1>
-            The headless CMS that thinks in <em>pages</em>, not tables.
-          </h1>
-          <p>
-            Model a real page tree, keep clean URLs and redirects, and deliver published content to
-            any front end over REST or GraphQL.
-          </p>
+          <h1>{content.headline}</h1>
+          <p>{content.subheadline}</p>
           <div className="hero-actions">
             <Link className="primary-button" href="/help/getting-started">
               Explore the CMS <ArrowRight weight="bold" />
@@ -312,6 +309,9 @@ export function MarketingHome({ cms }: { cms: CmsBootstrap | null }) {
         <div className="section-heading">
           <span>How it works</span>
           <h2>From content model to live website in four moves.</h2>
+          {content.introduction.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </div>
         <div className="steps-grid">
           {steps.map((step, index) => (
@@ -378,11 +378,11 @@ export function MarketingHome({ cms }: { cms: CmsBootstrap | null }) {
 
       <section className="cta-wrap">
         <div className="final-cta">
-          <h2>Own your content and your URLs.</h2>
+          <h2>{content.ctaHeading}</h2>
           <p>Use Scaffold as the content layer, then make the website entirely your own.</p>
           <div>
             <Link className="white-button" href="/help/getting-started">
-              Get started <ArrowRight weight="bold" />
+              {content.ctaButton} <ArrowRight weight="bold" />
             </Link>
             <Link className="glass-button" href="/help">
               Read the docs
