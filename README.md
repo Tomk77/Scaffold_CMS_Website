@@ -26,7 +26,8 @@ The token is server-only. Do not rename it to a `NEXT_PUBLIC_*` variable.
 - The homepage uses the supplied Scaffold marketing design and shows a live sample of published CMS pages.
 - `app/[...slug]/page.tsx` resolves any published page by its URL, so templates do not require separate GraphQL queries.
 - Known published URLs are collected during `next build` with `generateStaticParams`.
-- New and changed routes remain available at runtime, with CMS fetches revalidated every 60 seconds by default.
+- Local development fetches fresh CMS data on every request. Production keeps new and changed routes
+  available at runtime and revalidates CMS fetches every 60 seconds by default.
 - Published navigation and redirects are consumed from the same GraphQL contract.
 - When the CMS is unavailable, the marketing homepage remains usable and clearly omits its live data section. CMS-owned routes use the application error boundary.
 

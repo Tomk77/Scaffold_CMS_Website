@@ -110,7 +110,7 @@ const faqItems = [
   {
     question: "How quickly do published changes appear?",
     answer:
-      "That is controlled by the website. This Next.js example prebuilds known pages and revalidates its CMS reads every minute.",
+      "That is controlled by the website. This example fetches fresh content on every local-development request, while production prebuilds known pages and revalidates CMS reads every minute by default.",
   },
 ];
 

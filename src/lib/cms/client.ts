@@ -49,6 +49,10 @@ async function requestCms<T>(
   schema: ZodType<T>,
 ): Promise<T> {
   const config = cmsConfig();
+  const cacheOptions =
+    process.env.NODE_ENV === "development"
+      ? { cache: "no-store" as const }
+      : { next: { revalidate: config.revalidate, tags: ["cms-published"] } };
   const response = await fetch(config.endpoint, {
     method: "POST",
     headers: {
@@ -57,7 +61,7 @@ async function requestCms<T>(
       "content-type": "application/json",
     },
     body: JSON.stringify({ query, variables }),
-    next: { revalidate: config.revalidate, tags: ["cms-published"] },
+    ...cacheOptions,
   });
 
   const payload = (await response.json().catch(() => null)) as GraphQLResponse | null;
