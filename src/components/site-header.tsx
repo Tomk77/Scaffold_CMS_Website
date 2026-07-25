@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Brand } from "@/components/brand";
 import type { NavigationItem } from "@/lib/cms/schema";
+import { sourceRepositoryUrl } from "@/lib/links";
 
 const fallbackItems: NavigationItem[] = [
   {
@@ -87,7 +88,12 @@ export function SiteHeader({ items }: { items?: NavigationItem[] | undefined }) 
           ))}
         </nav>
         <div className="header-actions">
-          <Link className="quiet-button desktop-only" href="/open-source">
+          <Link
+            className="quiet-button desktop-only"
+            href={sourceRepositoryUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
             <GithubLogo aria-hidden="true" weight="fill" /> Open source
           </Link>
           <Link

@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Brand } from "@/components/brand";
 import type { NavigationItem } from "@/lib/cms/schema";
+import { sourceRepositoryUrl } from "@/lib/links";
 
 function FooterColumn({ item }: { item: NavigationItem }) {
   if (!item.children.length) return null;
@@ -28,7 +29,13 @@ export function SiteFooter({ items }: { items?: NavigationItem[] | undefined }) 
         <div className="footer-intro">
           <Brand compact />
           <p>The open, website-native headless CMS for teams who care about their URLs.</p>
-          <Link className="social-link" href="/open-source" aria-label="Open source information">
+          <Link
+            aria-label="Open source information"
+            className="social-link"
+            href={sourceRepositoryUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
             <GithubLogo aria-hidden="true" />
           </Link>
         </div>
@@ -45,7 +52,9 @@ export function SiteFooter({ items }: { items?: NavigationItem[] | undefined }) 
             <div className="footer-column">
               <strong>Developers</strong>
               <Link href="/help">Documentation</Link>
-              <Link href="/open-source">Open source</Link>
+              <Link href={sourceRepositoryUrl} rel="noreferrer" target="_blank">
+                Open source
+              </Link>
               <Link href="/contact">Contact</Link>
             </div>
           </>
