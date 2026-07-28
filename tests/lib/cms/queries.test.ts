@@ -5,7 +5,18 @@ import { BOOTSTRAP_QUERY, PAGE_QUERY } from "@/lib/cms/queries";
 describe("GraphQL documents", () => {
   it("looks pages up by URL and selects every known block type", () => {
     expect(PAGE_QUERY).toContain("page(url: $url)");
-    for (const type of ["HeroBlock", "RichTextBlock", "QuoteBlock", "ImageBlock", "CtaBlock"]) {
+    for (const type of [
+      "HeroBlock",
+      "RichTextBlock",
+      "QuoteBlock",
+      "ImageBlock",
+      "CtaBlock",
+      "MetricsBlock",
+      "StepsBlock",
+      "FeatureBlock",
+      "PageListBlock",
+      "FaqBlock",
+    ]) {
       expect(PAGE_QUERY).toContain(`on ${type}`);
     }
   });

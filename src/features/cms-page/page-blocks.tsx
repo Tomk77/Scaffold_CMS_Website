@@ -56,14 +56,22 @@ export function PageBlocks({ blocks }: { blocks: PageBlock[] }) {
           );
         }
 
-        return (
-          <aside className="content-cta" key={block.id}>
-            <h2>{block.heading}</h2>
-            <Link className="white-button" href="/contact">
-              {block.button || "Get in touch"} <ArrowRight weight="bold" />
-            </Link>
-          </aside>
-        );
+        if (block.__typename === "CtaBlock") {
+          const label = block.primaryLabel || block.button;
+          return (
+            <aside className="content-cta" key={block.id}>
+              <h2>{block.heading}</h2>
+              {block.body ? <p>{block.body}</p> : null}
+              {label ? (
+                <Link className="white-button" href={block.primaryUrl || "/contact"}>
+                  {label} <ArrowRight weight="bold" />
+                </Link>
+              ) : null}
+            </aside>
+          );
+        }
+
+        return null;
       })}
     </div>
   );

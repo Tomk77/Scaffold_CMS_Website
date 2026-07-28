@@ -12,6 +12,14 @@ const blocks: PageBlock[] = [
     eyebrow: "Guide",
     headline: "Build a calmer website",
     subheadline: "Start with the page tree.",
+    primaryLabel: null,
+    primaryUrl: null,
+    secondaryLabel: null,
+    secondaryUrl: null,
+    highlights: [],
+    imageSrc: null,
+    imageAlt: null,
+    imageLabel: null,
   },
   {
     __typename: "RichTextBlock",
@@ -31,7 +39,12 @@ const blocks: PageBlock[] = [
     id: "cta",
     version: 1,
     heading: "Ready to talk?",
+    body: null,
     button: "Contact us",
+    primaryLabel: null,
+    primaryUrl: null,
+    secondaryLabel: null,
+    secondaryUrl: null,
   },
 ];
 

@@ -9,11 +9,40 @@ const PAGE_FIELDS = `
   templateKey
   blocks {
     __typename
-    ... on HeroBlock { id version eyebrow headline subheadline }
+    ... on HeroBlock {
+      id version eyebrow headline subheadline
+      primaryLabel primaryUrl secondaryLabel secondaryUrl
+      highlights imageSrc imageAlt imageLabel
+    }
     ... on RichTextBlock { id version body }
     ... on QuoteBlock { id version text cite }
     ... on ImageBlock { id version alt caption }
-    ... on CtaBlock { id version heading button }
+    ... on CtaBlock {
+      id version heading body button
+      primaryLabel primaryUrl secondaryLabel secondaryUrl
+    }
+    ... on MetricsBlock {
+      id version accessibleLabel
+      metrics { value label }
+    }
+    ... on StepsBlock {
+      id version eyebrow heading introduction
+      steps { icon title body }
+    }
+    ... on FeatureBlock {
+      id version eyebrow title body points icon visual
+      imageSrc imageAlt
+      redirects { source destination statusCode }
+      recordTitle recordStatus recordFields { label value }
+      codeLanguage code
+    }
+    ... on PageListBlock {
+      id version eyebrow heading body maxItems emptyTitle emptyBody
+    }
+    ... on FaqBlock {
+      id version eyebrow heading
+      questions { question answer }
+    }
   }
   seo { title description socialImage }
   publishedAt

@@ -7,6 +7,14 @@ const heroBlockSchema = z.object({
   eyebrow: z.string().nullable(),
   headline: z.string(),
   subheadline: z.string().nullable(),
+  primaryLabel: z.string().nullable(),
+  primaryUrl: z.string().nullable(),
+  secondaryLabel: z.string().nullable(),
+  secondaryUrl: z.string().nullable(),
+  highlights: z.array(z.string()),
+  imageSrc: z.string().nullable(),
+  imageAlt: z.string().nullable(),
+  imageLabel: z.string().nullable(),
 });
 
 const richTextBlockSchema = z.object({
@@ -37,7 +45,73 @@ const ctaBlockSchema = z.object({
   id: z.string(),
   version: z.number(),
   heading: z.string(),
+  body: z.string().nullable(),
   button: z.string().nullable(),
+  primaryLabel: z.string().nullable(),
+  primaryUrl: z.string().nullable(),
+  secondaryLabel: z.string().nullable(),
+  secondaryUrl: z.string().nullable(),
+});
+
+const metricsBlockSchema = z.object({
+  __typename: z.literal("MetricsBlock"),
+  id: z.string(),
+  version: z.number(),
+  accessibleLabel: z.string().nullable(),
+  metrics: z.array(z.object({ value: z.string(), label: z.string() })),
+});
+
+const stepsBlockSchema = z.object({
+  __typename: z.literal("StepsBlock"),
+  id: z.string(),
+  version: z.number(),
+  eyebrow: z.string().nullable(),
+  heading: z.string(),
+  introduction: z.string().nullable(),
+  steps: z.array(z.object({ icon: z.string(), title: z.string(), body: z.string() })),
+});
+
+const featureBlockSchema = z.object({
+  __typename: z.literal("FeatureBlock"),
+  id: z.string(),
+  version: z.number(),
+  eyebrow: z.string().nullable(),
+  title: z.string(),
+  body: z.string().nullable(),
+  points: z.array(z.string()),
+  icon: z.string().nullable(),
+  visual: z.string().nullable(),
+  imageSrc: z.string().nullable(),
+  imageAlt: z.string().nullable(),
+  redirects: z.array(
+    z.object({ source: z.string(), destination: z.string(), statusCode: z.number() }),
+  ),
+  recordTitle: z.string().nullable(),
+  recordStatus: z.string().nullable(),
+  recordFields: z.array(z.object({ label: z.string(), value: z.string() })),
+  codeLanguage: z.string().nullable(),
+  code: z.string().nullable(),
+});
+
+const pageListBlockSchema = z.object({
+  __typename: z.literal("PageListBlock"),
+  id: z.string(),
+  version: z.number(),
+  eyebrow: z.string().nullable(),
+  heading: z.string(),
+  body: z.string().nullable(),
+  maxItems: z.number(),
+  emptyTitle: z.string().nullable(),
+  emptyBody: z.string().nullable(),
+});
+
+const faqBlockSchema = z.object({
+  __typename: z.literal("FaqBlock"),
+  id: z.string(),
+  version: z.number(),
+  eyebrow: z.string().nullable(),
+  heading: z.string(),
+  questions: z.array(z.object({ question: z.string(), answer: z.string() })),
 });
 
 export const pageBlockSchema = z.discriminatedUnion("__typename", [
@@ -46,6 +120,11 @@ export const pageBlockSchema = z.discriminatedUnion("__typename", [
   quoteBlockSchema,
   imageBlockSchema,
   ctaBlockSchema,
+  metricsBlockSchema,
+  stepsBlockSchema,
+  featureBlockSchema,
+  pageListBlockSchema,
+  faqBlockSchema,
 ]);
 
 export const pageSchema = z.object({
